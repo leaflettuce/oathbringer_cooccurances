@@ -87,5 +87,8 @@ G = nx.Graph()
 G.add_nodes_from(characters)
 G.add_weighted_edges_from(edge_list)
 
+#customize graphs
+
+
 #draw the graph
 nx.draw(G)
