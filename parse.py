@@ -137,10 +137,10 @@ for a in node_order:
             
 #drawing custimization
 sizes = [x[1]*200 for x in updated_node_order]
-widths = [x*3.2 for x in updated_again_edges]
+widths = [x*4.5 for x in updated_again_edges]
 
 #draw the graph
-pos = nx.spring_layout(G, k=0.9, iterations=60)
+pos = nx.spring_layout(G, k=0.42, iterations=22)
 
 nx.draw(G, pos, with_labels=True, font_size = 6.5, font_weight = 'bold', 
         node_size = sizes, width = widths)
