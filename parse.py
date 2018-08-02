@@ -28,23 +28,23 @@ for section in sections:
 
 
 #Create characters list and cooccurnce matrix
-characters = ['Syl ', 'Pattern ', 'Wyndle ', 'Glys ', 'Ivory ', 'Timbre ', 'Stormfather ',
+characters = [' Syl ', 'Pattern ', 'Wyndle ', 'Glys ', 'Ivory ', 'Timbre ', 'Stormfather ',
               'Nightwatcher ', 'Dalinar ', 'Shallan ', 'Kaladin ', 'Venli ', 'Adolin ', 
               'Szeth ', 'Navani ', 'Moash ', 'Jasnah ', 'Teft ', 'Renarin ', 'Lift ', 
               'Taravangian ', 'Wit ', 'Eshonai ', 'Rock ', 'Lopen ', 'Rysn ', 'Sigzil ',
               'palona ', 'mem ', 'ellista ', 'kaza ', 'gawx ', 'sheler ', 'rlain ',
               'torol ', 'meridas ', 'teleb ', 'gavilar ', 'resi ', 'elit ', 'erraniv ',
               'helaran ', 'jakamav ', 'kalishor ', 'salinor ', 'tanalor ', 'tinalar ',
-              'skar ', 'bisig ', 'dabbid ', 'hobber ', 'shen ', 'leyten ', 
+              'skar ', 'dabbid ', 'hobber ', 'shen ', 'leyten ', 
               'drehy ', 'gadol ', 'natam ', 'peet ', 'torfin ', 'yake ', 'baxil ', 
               'roshone ', 'tavinar ', 'istow ', 'dukar ', 'gavinor ', 'gaz ', 'ghenna ', 
               'hoid ', 'inadara', 'isasik', 'ishikk', 'jenet', 'kadash', 'kalami', 
               'khal ', 'khriss', 'laral ', 'lhan ', 'lirin', 'maben', 
               'maib ', 'marri ', 'mik ', 'nale ', 'nazh', 'nergaoul', 'nbissiquan', 
-              'nlent', 'noura', 'odium', 'redin', 'rez ', 'rial', 'rushu',
+              'nlent', 'noura', ' odium', 'redin', 'rez ', 'rial', 'rushu',
               'sebarial', 'shalash', 'sidin', 'sja-anat', 'tag ', 'taka ',
               'talik', 'temoo', 'thresh ', 'tigzikk', 'toravi', 'vamah', 
-              'vao', 'vath ', 'vathah', 'veil ', 'elhokar', 'evi ', 
+              'vao', 'vath ', 'vathah', ' veil ', 'elhokar', ' evi ', 
               'evinor']
 characters = [character.title() for character in characters] #oops title case
 
@@ -106,13 +106,18 @@ G.add_weighted_edges_from(updated_edge_list)
 G.nodes(data=True)
 G.edges(data = True)
 
-node_order = ['Skar ', 'Vamah', 'Pattern ', 'Stormfather ', 'Rock ', 'Kaza ', 'Timbre ', 'Peet ', 'Roshone ', 'Dabbid ', 'Toravi', 
-              'Ivory ', 'Veil ', 'Shallan ', 'Navani ', 'Nightwatcher ', 'Gavilar ', 'Rlain ', 'Lopen ', 'Khal ', 'Ellista ', 
-              'Lirin', 'Leyten ', 'Palona ', 'Laral ', 'Torol ', 'Inadara', 'Sigzil ', 'Elhokar', 'Venli ', 'Sidin', 
-              'Syl ', 'Rysn ', 'Sebarial', 'Bisig ', 'Wit ', 'Eshonai ', 'Lift ', 'Odium', 'Natam ', 'Moash ', 'Shen ', 
-              'Kaladin ', 'Rushu', 'Szeth ', 'Renarin ', 'Taravangian ', 'Kadash', 'Nale ', 'Drehy ', 'Dukar ', 'Gaz ', 'Teleb ', 
-              'Helaran ', 'Sheler ', 'Wyndle ', 'Mem ', 'Meridas ', 'Evi ', 'Hoid ', 'Kalami', 'Glys ', 'Yake ', 'Adolin ', 'Nergaoul', 
-              'Noura', 'Hobber ', 'Maben', 'Torfin ', 'Rial', 'Teft ', 'Dalinar ', 'Vathah', 'Jakamav ', 'Jasnah ', 'Shalash']
+node_order = ['Skar ', ' Syl ', 'Pattern ', 'Stormfather ', 'Rock ', 'Kaza ', 
+              'Timbre ', 'Peet ', 'Roshone ', 'Dabbid ', 'Toravi', 'Ivory ', 
+              ' Veil ', 'Shallan ', 'Navani ', 'Nightwatcher ', 'Gavilar ', 
+              'Rlain ', ' Odium', 'Khal ', 'Ellista ', 'Lirin', 'Leyten ', 
+              'Laral ', 'Shalash', 'Inadara', 'Sigzil ', 'Elhokar', 'Venli ', 
+              'Sidin', 'Rysn ', 'Sebarial', 'Palona ', 'Wit ', 'Vamah', 'Eshonai ',
+              'Lift ', 'Torol ', ' Evi ', 'Moash ', 'Shen ', 'Kaladin ', 'Lopen ', 
+              'Szeth ', 'Renarin ', 'Taravangian ', 'Kadash', 'Nale ', 'Drehy ', 
+              'Dukar ', 'Gaz ', 'Teleb ', 'Helaran ', 'Sheler ', 'Wyndle ', 'Mem ', 
+              'Meridas ', 'Hoid ', 'Kalami', 'Glys ', 'Yake ', 'Adolin ', 'Nergaoul', 
+              'Noura', 'Hobber ', 'Natam ', 'Maben', 'Torfin ', 'Rial', 'Teft ', 
+              'Dalinar ', 'Vathah', 'Jakamav ', 'Jasnah ', 'Rushu']
 
 #reorder node list
 updated_node_order = []
@@ -131,13 +136,11 @@ for a in node_order:
                 updated_again_edges.append(test[x])
             
 #drawing custimization
-sizes = [x[1]*150 for x in updated_node_order]
-widths = [x*8 for x in updated_again_edges]
+sizes = [x[1]*200 for x in updated_node_order]
+widths = [x*3.2 for x in updated_again_edges]
 
 #draw the graph
-pos = nx.spring_layout(G,k=0.45,iterations=1)
+pos = nx.spring_layout(G, k=0.9, iterations=60)
 
-nx.draw(G, pos, with_labels=True, font_size = 10, font_weight = 'bold', 
+nx.draw(G, pos, with_labels=True, font_size = 6.5, font_weight = 'bold', 
         node_size = sizes, width = widths)
-
-nx.savefig("imgs/oathbringer_net.png", format="PNG")
