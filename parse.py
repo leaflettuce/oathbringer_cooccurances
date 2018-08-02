@@ -81,16 +81,63 @@ for index, row in df.iterrows():
         weight = float(col)/464
         edge_list.append((index, df.columns[i], weight))
         i += 1
-        
+
+#Remove edge if 0.0
+updated_edge_list = [x for x in edge_list if not x[2] == 0.0]
+
+
+#create duple of char, occurance in novel
+node_list = []
+for i in characters:
+    for e in updated_edge_list:
+        if i == e[0] and i == e[1]:
+           node_list.append((i, e[2]*6))
+for i in node_list:
+    if i[1] == 0.0:
+        node_list.remove(i)
+
 #networkx graph time!
 G = nx.Graph()
-G.add_nodes_from(characters)
-G.add_weighted_edges_from(edge_list)
+for i in sorted(node_list):
+    G.add_node(i[0], size = i[1])
+G.add_weighted_edges_from(updated_edge_list)
 
-#customize graphs
+#check data of graphs
+G.nodes(data=True)
+G.edges(data = True)
 
+node_order = ['Skar ', 'Vamah', 'Pattern ', 'Stormfather ', 'Rock ', 'Kaza ', 'Timbre ', 'Peet ', 'Roshone ', 'Dabbid ', 'Toravi', 
+              'Ivory ', 'Veil ', 'Shallan ', 'Navani ', 'Nightwatcher ', 'Gavilar ', 'Rlain ', 'Lopen ', 'Khal ', 'Ellista ', 
+              'Lirin', 'Leyten ', 'Palona ', 'Laral ', 'Torol ', 'Inadara', 'Sigzil ', 'Elhokar', 'Venli ', 'Sidin', 
+              'Syl ', 'Rysn ', 'Sebarial', 'Bisig ', 'Wit ', 'Eshonai ', 'Lift ', 'Odium', 'Natam ', 'Moash ', 'Shen ', 
+              'Kaladin ', 'Rushu', 'Szeth ', 'Renarin ', 'Taravangian ', 'Kadash', 'Nale ', 'Drehy ', 'Dukar ', 'Gaz ', 'Teleb ', 
+              'Helaran ', 'Sheler ', 'Wyndle ', 'Mem ', 'Meridas ', 'Evi ', 'Hoid ', 'Kalami', 'Glys ', 'Yake ', 'Adolin ', 'Nergaoul', 
+              'Noura', 'Hobber ', 'Maben', 'Torfin ', 'Rial', 'Teft ', 'Dalinar ', 'Vathah', 'Jakamav ', 'Jasnah ', 'Shalash']
+
+#reorder node list
+updated_node_order = []
+for i in node_order:
+    for x in node_list:
+        if x[0] == i:
+            updated_node_order.append(x)
+            
+#reorder edge list - this was a pain
+test = nx.get_edge_attributes(G, 'weight')
+updated_again_edges = []
+for a in node_order:
+    for b in node_order:
+        for x in test.iterkeys():
+            if a == x[0] and b == x[1]:
+                updated_again_edges.append(test[x])
+            
+#drawing custimization
+sizes = [x[1]*150 for x in updated_node_order]
+widths = [x*8 for x in updated_again_edges]
 
 #draw the graph
-nx.draw(G)
+pos = nx.spring_layout(G,k=0.45,iterations=1)
 
-#Edit here
+nx.draw(G, pos, with_labels=True, font_size = 10, font_weight = 'bold', 
+        node_size = sizes, width = widths)
+
+nx.savefig("imgs/oathbringer_net.png", format="PNG")
