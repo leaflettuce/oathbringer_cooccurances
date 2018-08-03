@@ -144,16 +144,16 @@ for i in nx.edges(G):
             updated_again_edges.append(test[x])
             
 #drawing custimization
-node_scalar = 600
+node_scalar = 800
 edge_scalar = 10
 sizes = [x[1]*node_scalar for x in updated_node_order]
 widths = [x*edge_scalar for x in updated_again_edges]
 
 #draw the graph
-pos = nx.spring_layout(G, k=0.42, iterations=20)
+pos = nx.spring_layout(G, k=0.42, iterations=17)
 
 nx.draw(G, pos, with_labels=True, font_size = 8, font_weight = 'bold', 
         node_size = sizes, width = widths)
 
 plt.axis('off')
-plt.savefig("imgs/sl_network.png") # save as png
+plt.savefig("imgs/sl_network2.png") # save as png
