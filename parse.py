@@ -146,3 +146,6 @@ pos = nx.spring_layout(G, k=0.42, iterations=18)
 
 nx.draw(G, pos, with_labels=True, font_size = 6.5, font_weight = 'bold', 
         node_size = sizes, width = widths)
+
+plt.axis('off')
+plt.savefig("weighted_graph.png") # save as png
