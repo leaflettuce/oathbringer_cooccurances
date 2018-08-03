@@ -28,10 +28,10 @@ for section in sections:
 
 
 #Create characters list and cooccurnce matrix
-characters = [' Syl ', 'Pattern ', 'Wyndle ', 'Glys ', 'Ivory ', 'Timbre ', 'Stormfather ',
+characters = [' Syl ', ' Pattern ', 'Wyndle ', 'Glys ', ' Ivory ', ' Timbre ', 'Stormfather ',
               'Nightwatcher ', 'Dalinar ', 'Shallan ', 'Kaladin ', 'Venli ', 'Adolin ', 
               'Szeth ', 'Navani ', 'Moash ', 'Jasnah ', 'Teft ', 'Renarin ', 'Lift ', 
-              'Taravangian ', 'Wit ', 'Eshonai ', 'Rock ', 'Lopen ', 'Rysn ', 'Sigzil ',
+              'Taravangian ', 'Wit ', 'Eshonai ', ' Rock ', 'Lopen ', 'Rysn ', 'Sigzil ',
               'palona ', 'mem ', 'ellista ', 'kaza ', 'gawx ', 'sheler ', 'rlain ',
               'torol ', 'meridas ', 'teleb ', 'gavilar ', 'resi ', 'elit ', 'erraniv ',
               'helaran ', 'jakamav ', 'kalishor ', 'salinor ', 'tanalor ', 'tinalar ',
@@ -85,7 +85,6 @@ for index, row in df.iterrows():
 #Remove edge if 0.0
 updated_edge_list = [x for x in edge_list if not x[2] == 0.0]
 
-
 #create duple of char, occurance in novel
 node_list = []
 for i in characters:
@@ -96,6 +95,11 @@ for i in node_list:
     if i[1] == 0.0:
         node_list.remove(i)
 
+#remove self references
+for i in updated_edge_list:
+    if i[0] == i[1]:
+        updated_edge_list.remove(i)
+        
 #networkx graph time!
 G = nx.Graph()
 for i in sorted(node_list):
@@ -106,18 +110,17 @@ G.add_weighted_edges_from(updated_edge_list)
 G.nodes(data=True)
 G.edges(data = True)
 
-node_order = ['Skar ', ' Syl ', 'Pattern ', 'Stormfather ', 'Rock ', 'Kaza ', 
-              'Timbre ', 'Peet ', 'Roshone ', 'Dabbid ', 'Toravi', 'Ivory ', 
-              ' Veil ', 'Shallan ', 'Navani ', 'Nightwatcher ', 'Gavilar ', 
-              'Rlain ', ' Odium', 'Khal ', 'Ellista ', 'Lirin', 'Leyten ', 
-              'Laral ', 'Shalash', 'Inadara', 'Sigzil ', 'Elhokar', 'Venli ', 
-              'Sidin', 'Rysn ', 'Sebarial', 'Palona ', 'Wit ', 'Vamah', 'Eshonai ',
-              'Lift ', 'Torol ', ' Evi ', 'Moash ', 'Shen ', 'Kaladin ', 'Lopen ', 
-              'Szeth ', 'Renarin ', 'Taravangian ', 'Kadash', 'Nale ', 'Drehy ', 
-              'Dukar ', 'Gaz ', 'Teleb ', 'Helaran ', 'Sheler ', 'Wyndle ', 'Mem ', 
-              'Meridas ', 'Hoid ', 'Kalami', 'Glys ', 'Yake ', 'Adolin ', 'Nergaoul', 
-              'Noura', 'Hobber ', 'Natam ', 'Maben', 'Torfin ', 'Rial', 'Teft ', 
-              'Dalinar ', 'Vathah', 'Jakamav ', 'Jasnah ', 'Rushu']
+node_order = ['Skar ', ' Syl ', 'Rushu', 'Kaza ', 'Peet ', 'Roshone ', 'Dabbid ',
+              'Toravi', 'Natam ', 'Adolin ', 'Shallan ', 'Navani ', 'Nightwatcher ', 
+              'Gavilar ', 'Rlain ', ' Odium', 'Khal ', 'Ellista ', 'Lirin', 'Leyten ',
+              'Laral ', 'Torol ', 'Shalash', 'Inadara', 'Sigzil ', 'Elhokar', 'Venli ', 
+              'Sidin', 'Wyndle ', 'Rysn ', 'Mem ', 'Palona ', 'Wit ', 'Vamah', 'Eshonai ', 
+              'Lift ', 'Stormfather ', ' Evi ', 'Moash ', 'Shen ', 'Kaladin ', 'Lopen ', 
+              'Szeth ', 'Renarin ', 'Taravangian ', 'Kadash', 'Nale ', 'Drehy ', 'Dukar ', 
+              'Gaz ', 'Teleb ', 'Helaran ', 'Sheler ', 'Sebarial', 'Hoid ', 'Meridas ', 
+              ' Pattern ', ' Timbre ', 'Kalami', 'Glys ', 'Yake ', ' Veil ', 'Nergaoul', 
+              'Noura', 'Hobber ', ' Ivory ', 'Maben', 'Torfin ', 'Rial', 'Teft ', 'Dalinar ', 
+              'Vathah', 'Jakamav ', 'Jasnah ', ' Rock ']
 
 #reorder node list
 updated_node_order = []
@@ -129,6 +132,7 @@ for i in node_order:
 #reorder edge list - this was a pain
 test = nx.get_edge_attributes(G, 'weight')
 updated_again_edges = []
+
 for a in node_order:
     for b in node_order:
         for x in test.iterkeys():
@@ -140,7 +144,7 @@ sizes = [x[1]*200 for x in updated_node_order]
 widths = [x*4.5 for x in updated_again_edges]
 
 #draw the graph
-pos = nx.spring_layout(G, k=0.42, iterations=22)
+pos = nx.spring_layout(G, k=0.42, iterations=18)
 
 nx.draw(G, pos, with_labels=True, font_size = 6.5, font_weight = 'bold', 
         node_size = sizes, width = widths)
