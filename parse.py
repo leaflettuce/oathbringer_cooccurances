@@ -132,12 +132,10 @@ for i in node_order:
 #reorder edge list - this was a pain
 test = nx.get_edge_attributes(G, 'weight')
 updated_again_edges = []
-
-for a in node_order:
-    for b in node_order:
-        for x in test.iterkeys():
-            if a == x[0] and b == x[1]:
-                updated_again_edges.append(test[x])
+for i in nx.edges(G):
+    for x in test.iterkeys():
+        if i[0] == x[0] and i[1] == x[1]:
+            updated_again_edges.append(test[x])
             
 #drawing custimization
 sizes = [x[1]*200 for x in updated_node_order]
