@@ -100,6 +100,10 @@ for i in updated_edge_list:
     if i[0] == i[1]:
         updated_edge_list.remove(i)
         
+
+#set canvas size
+plt.subplots(figsize=(14,14))
+
 #networkx graph time!
 G = nx.Graph()
 for i in sorted(node_list):
@@ -107,9 +111,11 @@ for i in sorted(node_list):
 G.add_weighted_edges_from(updated_edge_list)
 
 #check data of graphs
-G.nodes(data=True)
-G.edges(data = True)
+#G.nodes(data=True)
+#G.edges(data = True)
 
+#manually copy and pasted the node order using 'nx.nodes(G)'
+#Couldn't determine another route to listing out the order of nodes for future work
 node_order = ['Skar ', ' Syl ', 'Rushu', 'Kaza ', 'Peet ', 'Roshone ', 'Dabbid ',
               'Toravi', 'Natam ', 'Adolin ', 'Shallan ', 'Navani ', 'Nightwatcher ', 
               'Gavilar ', 'Rlain ', ' Odium', 'Khal ', 'Ellista ', 'Lirin', 'Leyten ',
@@ -138,14 +144,16 @@ for i in nx.edges(G):
             updated_again_edges.append(test[x])
             
 #drawing custimization
-sizes = [x[1]*200 for x in updated_node_order]
-widths = [x*4.5 for x in updated_again_edges]
+node_scalar = 600
+edge_scalar = 10
+sizes = [x[1]*node_scalar for x in updated_node_order]
+widths = [x*edge_scalar for x in updated_again_edges]
 
 #draw the graph
-pos = nx.spring_layout(G, k=0.42, iterations=18)
+pos = nx.spring_layout(G, k=0.42, iterations=20)
 
-nx.draw(G, pos, with_labels=True, font_size = 6.5, font_weight = 'bold', 
+nx.draw(G, pos, with_labels=True, font_size = 8, font_weight = 'bold', 
         node_size = sizes, width = widths)
 
 plt.axis('off')
-plt.savefig("weighted_graph.png") # save as png
+plt.savefig("imgs/sl_network.png") # save as png
