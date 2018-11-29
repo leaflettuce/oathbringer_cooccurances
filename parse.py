@@ -100,6 +100,35 @@ for i in updated_edge_list:
     if i[0] == i[1]:
         updated_edge_list.remove(i)
         
+        
+        
+# Print out duple as csv
+import csv
+
+n_header = ['person', 'weight']
+n_filename = 'node_weights'                #Change to desired csv filename
+
+with open(n_filename + '.csv', 'w') as f: # replace 'w' with 'wb' for python 2
+    writer = csv.writer(f, lineterminator='\n')
+    writer.writerow(n_header)
+    for i in node_list:
+        writer.writerow([i[0], i[1]])
+
+# Print out tuple as csv
+e_header = ['person1', 'person2', 'weight']
+e_filename = 'edge_list'                #Change to desired csv filename
+
+with open(e_filename + '.csv', 'w') as f: # replace 'w' with 'wb' for python 2
+    writer = csv.writer(f, lineterminator='\n')
+    writer.writerow(e_header)
+    for i in updated_edge_list:
+        writer.writerow([i[0], i[1], i[2]])
+
+
+#### print out matrix
+m_filename = 'matrix'
+df.to_csv(m_filename + '.csv')
+
 
 #set canvas size
 plt.subplots(figsize=(14,14))
