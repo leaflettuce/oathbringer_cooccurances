@@ -10,7 +10,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 #import
-with open('data/oathbringer.txt') as text:
+with open('data/brothers.txt', encoding = 'utf8') as text:
     book_text = text.read()
 
 #split at pov changes
@@ -28,24 +28,10 @@ for section in sections:
 
 
 #Create characters list and cooccurnce matrix
-characters = [' Syl ', ' Pattern ', 'Wyndle ', 'Glys ', ' Ivory ', ' Timbre ', 'Stormfather ',
-              'Nightwatcher ', 'Dalinar ', 'Shallan ', 'Kaladin ', 'Venli ', 'Adolin ', 
-              'Szeth ', 'Navani ', 'Moash ', 'Jasnah ', 'Teft ', 'Renarin ', 'Lift ', 
-              'Taravangian ', 'Wit ', 'Eshonai ', ' Rock ', 'Lopen ', 'Rysn ', 'Sigzil ',
-              'palona ', 'mem ', 'ellista ', 'kaza ', 'gawx ', 'sheler ', 'rlain ',
-              'torol ', 'meridas ', 'teleb ', 'gavilar ', 'resi ', 'elit ', 'erraniv ',
-              'helaran ', 'jakamav ', 'kalishor ', 'salinor ', 'tanalor ', 'tinalar ',
-              'skar ', 'dabbid ', 'hobber ', 'shen ', 'leyten ', 
-              'drehy ', 'gadol ', 'natam ', 'peet ', 'torfin ', 'yake ', 'baxil ', 
-              'roshone ', 'tavinar ', 'istow ', 'dukar ', 'gavinor ', 'gaz ', 'ghenna ', 
-              'hoid ', 'inadara', 'isasik', 'ishikk', 'jenet', 'kadash', 'kalami', 
-              'khal ', 'khriss', 'laral ', 'lhan ', 'lirin', 'maben', 
-              'maib ', 'marri ', 'mik ', 'nale ', 'nazh', 'nergaoul', 'nbissiquan', 
-              'nlent', 'noura', ' odium', 'redin', 'rez ', 'rial', 'rushu',
-              'sebarial', 'shalash', 'sidin', 'sja-anat', 'tag ', 'taka ',
-              'talik', 'temoo', 'thresh ', 'tigzikk', 'toravi', 'vamah', 
-              'vao', 'vath ', 'vathah', ' veil ', 'elhokar', ' evi ', 
-              'evinor']
+characters = ['Alyosha', 'Dmitri', 'Ivan', 'Fyodor', 'Agrafena', 'Pavel', 
+              'Zosima', 'Katerina', 'Khokhlakov', 'Lisa', 'Mikhail', 
+              'Pyotr', 'Kuzma', 'Lizaveta', 'Fetyukovich', 'Ippolit', 
+              'Ferapont', 'Nikolai', 'Ilyusha', 'Grigory']
 characters = [character.title() for character in characters] #oops title case
 
 #--> iterate through each and store in dictionary
@@ -74,11 +60,12 @@ for value in sections_dictionary.values():
                 df[character2][character1] += 1
                 
 #add weights to edges
+weight_denominator = 32
 edge_list = [] #test networkx
 for index, row in df.iterrows():
     i = 0
     for col in row:
-        weight = float(col)/464
+        weight = float(col)/weight_denominator
         edge_list.append((index, df.columns[i], weight))
         i += 1
 
@@ -104,11 +91,11 @@ for i in updated_edge_list:
         
 # Print out duple as csv
 import csv
-
+version  = 'data/brothers_'
 n_header = ['person', 'weight']
 n_filename = 'node_weights'                #Change to desired csv filename
 
-with open(n_filename + '.csv', 'w') as f: # replace 'w' with 'wb' for python 2
+with open(version + n_filename + '.csv', 'w') as f: # replace 'w' with 'wb' for python 2
     writer = csv.writer(f, lineterminator='\n')
     writer.writerow(n_header)
     for i in node_list:
@@ -118,7 +105,7 @@ with open(n_filename + '.csv', 'w') as f: # replace 'w' with 'wb' for python 2
 e_header = ['person1', 'person2', 'weight']
 e_filename = 'edge_list'                #Change to desired csv filename
 
-with open(e_filename + '.csv', 'w') as f: # replace 'w' with 'wb' for python 2
+with open(version + e_filename + '.csv', 'w') as f: # replace 'w' with 'wb' for python 2
     writer = csv.writer(f, lineterminator='\n')
     writer.writerow(e_header)
     for i in updated_edge_list:
@@ -127,7 +114,8 @@ with open(e_filename + '.csv', 'w') as f: # replace 'w' with 'wb' for python 2
 
 #### print out matrix
 m_filename = 'matrix'
-df.to_csv(m_filename + '.csv')
+df.to_csv(version + m_filename + '.csv')
+
 
 
 #set canvas size
@@ -145,17 +133,8 @@ G.add_weighted_edges_from(updated_edge_list)
 
 #manually copy and pasted the node order using 'nx.nodes(G)'
 #Couldn't determine another route to listing out the order of nodes for future work
-node_order = ['Skar ', ' Syl ', 'Rushu', 'Kaza ', 'Peet ', 'Roshone ', 'Dabbid ',
-              'Toravi', 'Natam ', 'Adolin ', 'Shallan ', 'Navani ', 'Nightwatcher ', 
-              'Gavilar ', 'Rlain ', ' Odium', 'Khal ', 'Ellista ', 'Lirin', 'Leyten ',
-              'Laral ', 'Torol ', 'Shalash', 'Inadara', 'Sigzil ', 'Elhokar', 'Venli ', 
-              'Sidin', 'Wyndle ', 'Rysn ', 'Mem ', 'Palona ', 'Wit ', 'Vamah', 'Eshonai ', 
-              'Lift ', 'Stormfather ', ' Evi ', 'Moash ', 'Shen ', 'Kaladin ', 'Lopen ', 
-              'Szeth ', 'Renarin ', 'Taravangian ', 'Kadash', 'Nale ', 'Drehy ', 'Dukar ', 
-              'Gaz ', 'Teleb ', 'Helaran ', 'Sheler ', 'Sebarial', 'Hoid ', 'Meridas ', 
-              ' Pattern ', ' Timbre ', 'Kalami', 'Glys ', 'Yake ', ' Veil ', 'Nergaoul', 
-              'Noura', 'Hobber ', ' Ivory ', 'Maben', 'Torfin ', 'Rial', 'Teft ', 'Dalinar ', 
-              'Vathah', 'Jakamav ', 'Jasnah ', ' Rock ']
+node_order = ['Fyodor', 'Agrafena', 'Ferapont', 'Lizaveta', 'Katerina', 'Alyosha', 'Ivan', 
+              'Grigory', 'Pyotr', 'Dmitri', 'Kuzma', 'Pavel', 'Ippolit']
 
 #reorder node list
 updated_node_order = []
@@ -168,13 +147,13 @@ for i in node_order:
 test = nx.get_edge_attributes(G, 'weight')
 updated_again_edges = []
 for i in nx.edges(G):
-    for x in test.iterkeys():
+    for x in test.keys():
         if i[0] == x[0] and i[1] == x[1]:
             updated_again_edges.append(test[x])
             
 #drawing custimization
 node_scalar = 800
-edge_scalar = 10
+edge_scalar = 8
 sizes = [x[1]*node_scalar for x in updated_node_order]
 widths = [x*edge_scalar for x in updated_again_edges]
 
@@ -185,4 +164,4 @@ nx.draw(G, pos, with_labels=True, font_size = 8, font_weight = 'bold',
         node_size = sizes, width = widths)
 
 plt.axis('off')
-plt.savefig("imgs/sl_network2.png") # save as png
+plt.savefig("imgs/brothers.png") # save as png
